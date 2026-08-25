@@ -8,7 +8,7 @@ import NotFound from './pages/NotFound'
 
 export default function App() {
   return (
-    <div className="flex min-h-screen flex-col bg-slate-950 text-slate-200 antialiased">
+    <div className="flex min-h-screen flex-col bg-paper text-ink antialiased">
       <NavBar />
       <main className="flex-1">
         <Routes>

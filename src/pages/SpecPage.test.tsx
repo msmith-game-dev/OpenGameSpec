@@ -31,11 +31,12 @@ describe('SpecPage', () => {
   it('offers no repository link for a planned specification', () => {
     renderAt('/specifications/opendialog')
     expect(screen.queryByRole('link', { name: 'View the repository' })).not.toBeInTheDocument()
-    expect(screen.getByTestId('status-badge')).toHaveTextContent('Not started')
+    expect(screen.getByTestId('status-stamp')).toHaveTextContent('Not in this release')
+    expect(screen.getByText('None yet')).toBeInTheDocument()
   })
 
   it('falls back to 404 for an unknown specification', () => {
     renderAt('/specifications/openspaceship')
-    expect(screen.getByRole('heading', { name: 'Nothing here' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Page not found' })).toBeInTheDocument()
   })
 })

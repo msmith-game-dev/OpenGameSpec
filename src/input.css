@@ -1,47 +1,98 @@
 @import 'tailwindcss';
 
+/* Self-hosted — a spec site that cannot render without calling Google is making a
+   claim about dependencies it should not make. See DESIGN.md. */
+@import '@fontsource/archivo-black/400.css';
+@import '@fontsource/archivo/400.css';
+@import '@fontsource/archivo/500.css';
+@import '@fontsource/archivo/600.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+
 @theme {
-  /* Flame — the accent, used for anything that means "this exists and you can use it". */
-  --color-flame-50: #fff8ed;
-  --color-flame-100: #ffefd4;
-  --color-flame-200: #ffdaa8;
-  --color-flame-300: #ffbf71;
-  --color-flame-400: #ff9838;
-  --color-flame-500: #ff7a12;
-  --color-flame-600: #f05e08;
-  --color-flame-700: #c74609;
-  --color-flame-800: #9e3810;
-  --color-flame-900: #7f3010;
+  /* Four inks on paper. The constraint forces every colour to mean something. */
+  --color-paper: #ffffff;
+  --color-stock: #f1f2f4;
+  --color-ink: #111318;
+  --color-ink-mid: #4a4f5a;
+  --color-ink-light: #8a9099;
+
+  --color-red: #e8442b;
+  --color-blue: #1b4fd8;
+  /* Yellow is a FILL, never ink — #FFC400 on white is 1.7:1. */
+  --color-yellow: #ffc400;
+
+  --font-display: 'Archivo Black', system-ui, sans-serif;
+  --font-sans: 'Archivo', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
 }
 
-html {
-  scroll-behavior: smooth;
+@layer base {
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+  }
+
+  /* Focus is 3px solid ink — the same weight as the printed rules. */
+  :focus-visible {
+    @apply outline-ink;
+    outline-width: 3px;
+    outline-style: solid;
+    outline-offset: 2px;
+  }
+}
+
+@utility cover {
+  font-family: var(--font-display);
+  font-size: 4.5rem;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.75rem;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+@utility caption {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 /*
- * Markdown rendered from docs/ via react-markdown. Styling lives here rather than as utility
- * classes because the markup is generated — there is no JSX to hang classes on.
+ * Markdown rendered from docs/. Styling lives here rather than as utility classes because
+ * the markup is generated — there is no JSX to hang classes on.
  */
 .md {
-  @apply text-slate-300 leading-relaxed;
+  @apply text-ink leading-relaxed;
 }
 .md > * + * {
   @apply mt-4;
 }
-.md h1 {
-  @apply text-3xl font-bold text-white mt-10 mb-4 tracking-tight;
+.md h1,
+.md h2,
+.md h3 {
+  font-family: var(--font-display);
 }
 .md h2 {
-  @apply text-2xl font-semibold text-white mt-10 mb-3 pb-2 border-b border-slate-800;
+  @apply text-2xl mt-12 mb-4 pt-3 border-t-2 border-ink uppercase;
 }
 .md h3 {
-  @apply text-lg font-semibold text-white mt-8 mb-2;
+  @apply text-lg mt-8 mb-2 font-sans font-semibold;
 }
 .md a {
-  @apply text-flame-400 underline underline-offset-2 hover:text-flame-300;
+  @apply text-red underline decoration-2 underline-offset-2 hover:bg-yellow hover:text-ink hover:no-underline;
 }
 .md strong {
-  @apply text-white font-semibold;
+  @apply font-semibold;
 }
 .md ul {
   @apply list-disc pl-6 space-y-1.5;
@@ -49,30 +100,45 @@ html {
 .md ol {
   @apply list-decimal pl-6 space-y-1.5;
 }
+/* Blockquotes in the overview files carry the draft-instability warnings —
+   they get the manual's warning panel treatment. */
 .md blockquote {
-  @apply border-l-4 border-flame-500/60 bg-slate-900/60 rounded-r-lg py-3 px-5 text-slate-300;
+  @apply border-[3px] border-ink bg-yellow px-5 py-4 text-ink;
 }
 .md blockquote > * + * {
   @apply mt-3;
 }
+.md blockquote a {
+  @apply text-ink;
+}
 .md code {
-  @apply bg-slate-800 text-flame-200 rounded px-1.5 py-0.5 text-[0.875em] font-mono;
+  @apply font-mono text-[0.875em] bg-stock px-1.5 py-0.5;
 }
 .md pre {
-  @apply bg-slate-900 border border-slate-800 rounded-xl p-4 overflow-x-auto text-sm;
+  @apply bg-stock border-[3px] border-ink p-4 overflow-x-auto text-sm;
 }
 .md pre code {
-  @apply bg-transparent text-slate-200 p-0;
+  @apply bg-transparent p-0;
 }
 .md table {
   @apply w-full text-left text-sm border-collapse;
 }
 .md th {
-  @apply border-b border-slate-700 pb-2 pr-4 text-white font-semibold;
+  @apply border-b-2 border-ink pb-2 pr-4 font-semibold;
 }
 .md td {
-  @apply border-b border-slate-800/70 py-2 pr-4 align-top;
+  @apply border-b border-ink-light/40 py-2 pr-4 align-top;
 }
 .md hr {
-  @apply border-slate-800 my-8;
+  @apply border-0 border-t-2 border-ink my-10;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

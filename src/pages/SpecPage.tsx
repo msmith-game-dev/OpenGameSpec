@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { getOverviewBody, getSpec } from '../data/specs'
 import Markdown from '../components/Markdown'
-import StatusBadge from '../components/StatusBadge'
+import StatusStamp from '../components/StatusStamp'
 import NotFound from './NotFound'
 
 /**
@@ -19,53 +19,72 @@ export default function SpecPage() {
   const overview = getOverviewBody(spec.id)
 
   return (
-    <div className="mx-auto max-w-4xl px-6 py-16">
+    <div className="mx-auto max-w-[1120px] px-6 py-12">
       <Link
         to="/specifications"
-        className="text-sm text-slate-400 transition hover:text-white"
+        className="eyebrow text-ink-mid transition-colors duration-100 hover:text-red"
       >
         ← All specifications
       </Link>
 
-      <div className="mt-6 flex flex-wrap items-center gap-4">
-        <h1 className="text-4xl font-bold tracking-tight text-white">{spec.name}</h1>
-        <StatusBadge status={spec.status} version={spec.version} />
+      <div className="mt-6 border-b-2 border-ink pb-8">
+        <h1 className="font-display text-4xl uppercase tracking-tight sm:text-5xl">{spec.name}</h1>
+        <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-mid">{spec.summary}</p>
+
+        {/* Data rows — the manual idiom for stating machine facts. */}
+        <dl className="mt-8 max-w-md">
+          <div className="flex items-center justify-between gap-4 border-t border-ink-light/40 py-2.5">
+            <dt className="eyebrow text-ink-light">Status</dt>
+            <dd>
+              <StatusStamp status={spec.status} version={spec.version} />
+            </dd>
+          </div>
+          <div className="flex items-center justify-between gap-4 border-t border-ink-light/40 py-2.5">
+            <dt className="eyebrow text-ink-light">Repository</dt>
+            <dd className="font-mono text-sm">
+              {spec.repository ? (
+                <a
+                  href={spec.repository}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-red underline decoration-2 underline-offset-2"
+                >
+                  View the repository
+                </a>
+              ) : (
+                <span className="text-ink-light">None yet</span>
+              )}
+            </dd>
+          </div>
+          <div className="flex items-center justify-between gap-4 border-y border-ink-light/40 py-2.5">
+            <dt className="eyebrow text-ink-light">Licence</dt>
+            <dd className="font-mono text-sm text-ink-mid">Apache-2.0</dd>
+          </div>
+        </dl>
       </div>
 
-      <p className="mt-4 text-lg leading-relaxed text-slate-400">{spec.summary}</p>
+      <div className="mt-10 max-w-[680px]">
+        {overview ? (
+          <Markdown>{overview}</Markdown>
+        ) : (
+          /* The registry validator makes this unreachable in a passing build. It exists because a
+             blank page is a worse failure than an explicit one if that ever stops being true. */
+          <p className="text-ink-mid">
+            No overview found at <code className="font-mono">{spec.docs}/README.md</code>.
+          </p>
+        )}
 
-      <div className="mt-6 flex flex-wrap gap-3">
-        {spec.repository ? (
+        <p className="caption mt-12 border-t-2 border-ink pt-3 text-ink-light">
           <a
-            href={spec.repository}
+            href={`https://github.com/msmith-game-dev/OpenGameSpec/blob/main/${spec.docs}/README.md`}
             target="_blank"
             rel="noreferrer"
-            className="rounded-lg bg-flame-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-flame-400"
+            className="hover:text-red"
           >
-            View the repository
+            Edit this page
           </a>
-        ) : null}
-        <a
-          href={`https://github.com/msmith-game-dev/OpenGameSpec/blob/main/${spec.docs}/README.md`}
-          target="_blank"
-          rel="noreferrer"
-          className="rounded-lg border border-slate-700 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-flame-500/60 hover:text-white"
-        >
-          Edit this page
-        </a>
-      </div>
-
-      <hr className="my-10 border-slate-800" />
-
-      {overview ? (
-        <Markdown>{overview}</Markdown>
-      ) : (
-        /* The registry validator makes this unreachable in a passing build. It exists because a
-           blank page is a worse failure than an explicit one if that ever stops being true. */
-        <p className="text-slate-400">
-          No overview found at <code className="text-flame-300">{spec.docs}/README.md</code>.
         </p>
-      )}
+      </div>
     </div>
   )
 }
