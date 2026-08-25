@@ -1,0 +1,32 @@
+# Node
+node_modules/
+*.tsbuildinfo
+dist/
+build/
+coverage/
+.vitest/
+
+# npm debug output
+npm-debug.log*
+pnpm-debug.log*
+
+# Website build / deploy
+.vite/
+.netlify/
+
+# Secrets / local config
+.env
+.env.*
+!.env.example
+.claude/settings.local.json
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.idea/
+.vs/
+*.swp
+*~

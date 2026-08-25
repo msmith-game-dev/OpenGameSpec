@@ -1,0 +1,13 @@
+# Normalise line endings everywhere, so a Windows checkout and a Linux CI runner
+# see byte-identical files. Without this, Git's autocrlf rewrites checked-in files
+# on Windows and diffs appear that nobody wrote.
+* text eol=lf
+
+# Explicitly binary — never touched.
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary

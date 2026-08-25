@@ -1,0 +1,25 @@
+OpenGameSpec
+Copyright 2026 Arctic Flame Games Ltd
+
+This product is licensed under the Apache License, Version 2.0.
+See the LICENSE file for the full terms.
+
+---
+
+Why this file exists, and what it is not:
+
+The Apache 2.0 LICENSE file is verbatim boilerplate and names no copyright
+holder. This NOTICE carries the attribution instead, and is the only place in
+the repository that records who holds copyright.
+
+This repository contains the umbrella documentation and website for the
+OpenGameSpec family. Each specification lives in its own repository under its
+own LICENSE and NOTICE; this notice covers only what is checked in here.
+
+The contents of a NOTICE file are informational and do not modify the
+License. Anything granted by LICENSE stays granted regardless of what is
+written here.
+
+Contributors retain copyright in their own contributions and license them
+under Apache 2.0 by signing off (see CONTRIBUTING.md). This notice does not
+claim their work.
