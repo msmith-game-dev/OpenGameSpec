@@ -28,6 +28,44 @@ coming-soon, and CI fails on a broken link or a malformed registry entry.
 **Not in scope.** Hosting the specification prose itself. The site links to specification
 repositories; it does not become a second copy of them (ADR-0001).
 
+**Carried from ADR-0002 on acceptance:**
+
+- **Settle markdown ingestion before any page work.** How Vite renders `.md` living outside `src/`
+  is the one gap the chosen stack does not close and every rejected alternative did. Deciding it
+  after the first three pages exist means rewriting them.
+- **Add the Netlify SPA redirect (`/* /index.html 200`) in the same commit as the first route.** Not
+  after the first 404 report — client-side routing on a static host passes local testing and fails
+  on refresh in production.
+- **Validate `docs/specs.json` at build time**, so a malformed registry fails the deploy rather than
+  publishing. Overlaps with *Registry validation in CI* below; whichever lands first should cover
+  the other's case rather than duplicating the check.
+
+---
+
+### Registry validation in CI
+
+**Why.** `docs/specs.json` is the one file in this repository capable of publishing something false.
+It duplicates `status` and `version` from specifications it does not own — the single deliberate
+duplication ADR-0001 accepted — and it is the website's data source. A stale or malformed entry does
+not fail a build; it renders confidently and wrongly. A site that calls a specification `stable` when
+its repository says `0.1-draft` costs a reader their trust exactly once.
+
+`ARCHITECTURE.md` already states this as a testing-strategy requirement. Nothing enforces it.
+
+**Scope.** A JSON Schema for the registry plus a CI check that fails on: a malformed entry, an
+unknown `status` value, an `id` with no matching folder under `docs/`, a `planned` entry carrying a
+`version` or `repository`, or a non-`planned` entry missing either. Separately, a scheduled check
+that each registry `version` still matches the version in the specification's own repository — the
+drift ADR-0001 knowingly accepted, and the reason it is cheaply detectable rather than merely
+regrettable.
+
+**Done when.** CI rejects a hand-broken registry entry, and a deliberate version mismatch against
+OpenQuestSpec is reported rather than silently shipped.
+
+**Cheapest item in this file, and the only one actionable today.** It needs no website, no second
+specification, and no decision — the rules are already written in `ARCHITECTURE.md` and just need
+executing. Carried from ADR-0001 on acceptance.
+
 ---
 
 ### Cross-specification references
@@ -89,6 +127,10 @@ second specification before the first has a working validator means guessing twi
 learning once — and the conventions this family shares are currently observations from a sample of
 one.
 
+**Triggers the conventions question.** Whichever of this and OpenItemSpec starts first forces the
+family to decide whether the six conventions in `ARCHITECTURE.md` are binding or merely observed —
+see *Governance*. Adopting them is what would justify ratifying them; diverging needs an ADR.
+
 ---
 
 ### OpenItemSpec
@@ -124,6 +166,23 @@ CONTRIBUTING links to it.
 
 **Not urgent, and it should not pretend to be.** Inventing committee structure for a one-person
 project is theatre. The trigger is the first outside contributor or the first studio asking.
+
+**Carried from ADR-0001 on acceptance — and this part has an earlier trigger than the rest:**
+
+- **Decide what makes a family-level decision bind a specification.** ADR-0001 assumes a record here
+  binds the family and a record in a specification's repository binds only that specification.
+  Nothing enforces the first half. A specification can simply not adopt a family decision, and today
+  nothing would even notice.
+- **Ratify the shared conventions, or leave them observed.** The `ARCHITECTURE.md` conventions table
+  was demoted at ADR review on 2026-08-25 to *observed in OpenQuestSpec, not binding* — because all
+  six rules were decided in OpenQuestSpec's own ADRs, which bind OpenQuestSpec and nothing else. That
+  is the honest state at one specification, and it means **a second specification currently has
+  nothing it is required to conform to.**
+
+  This comes due when OpenDialogSpec or OpenItemSpec starts, not when the first outside contributor
+  appears. Whichever begins first either adopts the six conventions — which is the evidence that
+  would justify ratifying them here — or diverges, which is the more interesting outcome and needs
+  an ADR saying why.
 
 ## Promoted
 
