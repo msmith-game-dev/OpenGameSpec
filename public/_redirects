@@ -1,0 +1,4 @@
+# SPA fallback: client-side routes must survive a hard refresh.
+# Shipped with the first route rather than after the first 404 report (ADR-0002) —
+# client-side routing on a static host passes local testing and fails in production.
+/*  /index.html  200

@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+# The build command runs scripts/validate-registry.mjs before vite, so a malformed
+# docs/specs.json fails the deploy rather than publishing a wrong specification status.
+# See ADR-0001 — the registry is the one file here capable of publishing something false.

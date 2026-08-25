@@ -2,9 +2,8 @@
 
 > Last updated: 2026-08-25
 
-> **The website is designed, not yet built.** Everything below about `src/` describes intent, not
-> code. Re-run `/architecture` once the site ships to reconcile this document with reality. The
-> `docs/` sections describe what exists today.
+> **The website is built.** `src/` describes real code as of 2026-08-25. Not yet deployed — the site
+> builds and tests clean locally, and has no custom domain.
 
 OpenGameSpec is two things in one repository, and the rules below follow from keeping them separate:
 
@@ -25,14 +24,14 @@ excessive is protecting that line.
 
 | Concern | Choice | Version |
 |---|---|---|
-| Runtime | Node.js (LTS) | 22.x |
+| Runtime | Node.js — Netlify pins 24; verified locally on 20 | 20–24 |
 | Language | TypeScript, ESM only | 6.x |
 | UI | React | 19.x |
 | Routing | react-router-dom | 7.x |
 | Build | Vite | 6.x |
 | Styling | Tailwind CSS (via `@tailwindcss/vite`) | 4.x |
 | Test framework | Vitest + Testing Library | 4.x / 16.x |
-| Markdown rendering | TBD at implementation — MDX or a Vite markdown plugin | — |
+| Markdown rendering | Vite `?raw` + `react-markdown` + `remark-gfm` — no build plugin | 10.x / 4.x |
 | Hosting | Netlify, static | — |
 
 The stack deliberately matches `arctic-flame-games-website` (ADR-0002) so that one set of habits
@@ -40,10 +39,15 @@ covers both sites. **The versions above are copied from that repository by hand 
 Check `../PublicCompanyWebsite/package.json` before trusting a row — a review on 2026-08-25 already
 caught this table claiming TypeScript 5.x against a sibling pinned to 6.x.
 
-The one open question is markdown: the site must render `.md` files that live outside `src/`, and
-Vite needs to be told how. That is an implementation decision, not an architectural one, but it is
-the first thing the site milestone has to settle, because it is the single gap the chosen stack does
-not close and every rejected alternative did (ADR-0002).
+**Markdown is settled** — it was the one gap the chosen stack did not close, and ADR-0002 required
+settling it before any page work. The answer needs no build plugin: `import.meta.glob` with
+`query: '?raw'` reads `docs/*/README.md` as strings at build time, and `react-markdown` renders them.
+
+Two properties earned it. The site renders the **actual** file under `docs/`, so overview prose has
+exactly one copy (ADR-0001). And the glob is pattern-based, so a new specification folder is picked
+up with no wiring — the same property that makes adding a registry entry sufficient to add a page.
+
+The cost: no React components inside markdown, which MDX would have allowed. Nothing needs it today.
 
 There is no database, no HTTP server, no authentication, and no user-submitted content in this
 project. Those sections appear below marked not applicable rather than omitted, so their absence is a
@@ -64,14 +68,19 @@ docs/                     The umbrella documentation. Committed prose and data, 
                           DESCRIBES, never defines. No schema, no normative prose.
   adr/                    Why this repository is shaped the way it is.
 
-src/                      The website. NOT BUILT YET.
+src/                      The website.
   pages/                  One component per route. Composition only — no fetching,
                           no formatting, no business logic.
   components/             Reusable presentational components. No knowledge of routes.
-  data/                   Loads and types docs/specs.json. The only place that
-                          reaches outside src/ for content.
+  data/                   Loads and types docs/specs.json and the docs/*/README.md
+                          overviews. The only place that reaches outside src/.
 
-public/                   Static assets served verbatim.
+scripts/
+  validate-registry.mjs   Runs before vite build. Rules are a pure exported function
+                          taking its filesystem check as an argument, which is what
+                          makes the failure modes testable without writing bad files.
+
+public/_redirects         SPA fallback, so client-side routes survive a hard refresh.
 ```
 
 ### Layer rules
@@ -149,18 +158,21 @@ family can see whether the convention or the exception is the thing that should 
 
 ## Testing strategy
 
-**Today: nothing to test.** `docs/` is prose. This section describes what the site milestone must
-deliver, so it is not decided under deadline.
+`npm test` runs Vitest; `npm run check` runs registry validation, `tsc`, and the suite.
 
-- **Registry validation** is the one test that must exist before the site does. `docs/specs.json`
-  gets a schema, and CI fails on a malformed entry, an unknown `status`, or an `id` with no matching
-  folder under `docs/`. This is cheap now and gets expensive the moment external tools read it.
-- **Component tests** via Testing Library for anything with a branch in it — a status badge that
-  renders four ways is worth four assertions.
+- **Registry validation** runs before `vite build`, so a malformed entry fails the deploy rather
+  than publishing. Its rules are a pure function taking `overviewExists` as an argument, so every
+  failure mode is tested without writing broken files to disk.
+- **Component tests** via Testing Library for anything with a branch in it — the status badge
+  renders four ways and has four assertions, plus one asserting a `planned` specification is never
+  described as coming soon. That last one is a product rule, not a styling preference.
+- **The docs seam is tested**, because it is where ADR-0001 accepted duplication: every registry
+  entry must have a loadable overview, and `SpecPage` asserts against text that exists only in
+  `docs/openquest/README.md`. If the site ever stops reading the real file, those fail.
 - **No snapshot tests of marketing copy.** They fail on every wording change and teach the team to
   regenerate without reading.
-- **Link checking** in CI. A specification family whose site links to a 404 is making an argument
-  about its own maintenance.
+- **Link checking** in CI — still outstanding. A specification family whose site links to a 404 is
+  making an argument about its own maintenance.
 
 ---
 

@@ -1,0 +1,78 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Flame — the accent, used for anything that means "this exists and you can use it". */
+  --color-flame-50: #fff8ed;
+  --color-flame-100: #ffefd4;
+  --color-flame-200: #ffdaa8;
+  --color-flame-300: #ffbf71;
+  --color-flame-400: #ff9838;
+  --color-flame-500: #ff7a12;
+  --color-flame-600: #f05e08;
+  --color-flame-700: #c74609;
+  --color-flame-800: #9e3810;
+  --color-flame-900: #7f3010;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/*
+ * Markdown rendered from docs/ via react-markdown. Styling lives here rather than as utility
+ * classes because the markup is generated — there is no JSX to hang classes on.
+ */
+.md {
+  @apply text-slate-300 leading-relaxed;
+}
+.md > * + * {
+  @apply mt-4;
+}
+.md h1 {
+  @apply text-3xl font-bold text-white mt-10 mb-4 tracking-tight;
+}
+.md h2 {
+  @apply text-2xl font-semibold text-white mt-10 mb-3 pb-2 border-b border-slate-800;
+}
+.md h3 {
+  @apply text-lg font-semibold text-white mt-8 mb-2;
+}
+.md a {
+  @apply text-flame-400 underline underline-offset-2 hover:text-flame-300;
+}
+.md strong {
+  @apply text-white font-semibold;
+}
+.md ul {
+  @apply list-disc pl-6 space-y-1.5;
+}
+.md ol {
+  @apply list-decimal pl-6 space-y-1.5;
+}
+.md blockquote {
+  @apply border-l-4 border-flame-500/60 bg-slate-900/60 rounded-r-lg py-3 px-5 text-slate-300;
+}
+.md blockquote > * + * {
+  @apply mt-3;
+}
+.md code {
+  @apply bg-slate-800 text-flame-200 rounded px-1.5 py-0.5 text-[0.875em] font-mono;
+}
+.md pre {
+  @apply bg-slate-900 border border-slate-800 rounded-xl p-4 overflow-x-auto text-sm;
+}
+.md pre code {
+  @apply bg-transparent text-slate-200 p-0;
+}
+.md table {
+  @apply w-full text-left text-sm border-collapse;
+}
+.md th {
+  @apply border-b border-slate-700 pb-2 pr-4 text-white font-semibold;
+}
+.md td {
+  @apply border-b border-slate-800/70 py-2 pr-4 align-top;
+}
+.md hr {
+  @apply border-slate-800 my-8;
+}
