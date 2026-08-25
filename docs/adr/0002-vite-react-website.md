@@ -1,7 +1,8 @@
 # ADR-0002: Build the website with Vite, React, and Tailwind
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-08-25
+- **Decided:** 2026-08-25
 - **Deciders:** Project owner (@msmith-game-dev)
 - **Note:** Selected by the owner from stated options at the repository's founding. The website is
   not built yet; this record fixes the stack so the site milestone does not open with a tooling
@@ -57,6 +58,22 @@ tree, versioned documentation, or a blog, the content tooling stops being a marg
 Astro's case becomes strong enough to reopen. That trigger is worth watching for rather than
 rediscovering under deadline.
 
+### Next.js
+
+The default answer for a React marketing-plus-content site, and the option most readers will expect
+to find here. Static export covers this site's needs entirely, file-based routing removes the router
+dependency, MDX support is first-class rather than a plugin hunt, and it would solve the markdown
+problem this decision leaves open.
+
+Rejected on the same criterion that decided the whole record: it does not match
+`arctic-flame-games-website`, so it fails the consistency test that is the entire argument for the
+chosen stack. Adopting it would mean two React meta-frameworks across two sites maintained by one
+person — the outcome this decision exists to avoid.
+
+Worth stating plainly that the *technical* case against Next.js here is thin. It would work. It loses
+to an organisational constraint, not a capability gap, and if the sibling site is ever rebuilt or
+retired that constraint disappears with it.
+
 ### Docusaurus
 
 Docs-first, with sidebar navigation, documentation versioning, and Algolia search included. Its
@@ -98,3 +115,26 @@ around a bespoke marketing landing page, which is the shape Docusaurus resists h
 - Validate `docs/specs.json` at build time — the registry is the site's only data source and the one
   input capable of publishing something false (ADR-0001 follow-up).
 - Revisit Astro if the site ever renders full specification prose, versioned docs, or a blog.
+
+---
+
+## Review notes
+
+Reviewed and accepted 2026-08-25. One record defect and one propagation error were found and fixed
+before acceptance; the decision itself was not contested.
+
+**Finding 1 — the industry default was missing.** The record weighed Astro and Docusaurus but not
+Next.js, which is what most readers would reach for first on a React content site. Its absence made
+the alternatives look curated rather than surveyed. It is now included, and it loses to the same
+consistency criterion that decided everything else — which is precisely why leaving it out was a
+defect rather than an economy: an alternative dismissed in one line still has to appear.
+
+**Finding 2 — `ARCHITECTURE.md` contradicted the record's central claim.** This ADR justifies the
+stack by matching `arctic-flame-games-website`. The stack table said TypeScript 5.x; the sibling repo
+pins `^6.0.3`. Every other row was accurate. Corrected on acceptance. Worth noting the shape of the
+error: the one row that was wrong was wrong in the direction that quietly undercut the argument, and
+a stack table copied by hand will keep doing this.
+
+**Standing risk, not a defect:** markdown ingestion is deliberately unresolved. It is the one thing
+the chosen stack does not answer and every rejected alternative does. The site milestone settles it
+first, before any page work.

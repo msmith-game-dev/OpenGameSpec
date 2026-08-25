@@ -1,7 +1,8 @@
 # ADR-0001: Each specification lives in its own repository; OpenGameSpec describes, never defines
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-08-25
+- **Decided:** 2026-08-25
 - **Deciders:** Project owner (@msmith-game-dev)
 - **Note:** Selected by the owner from stated options at the repository's founding.
 
@@ -25,8 +26,14 @@ proposition is being separately versionable and separately implementable.
 
 **A specification's authority is inseparable from its location.** OpenQuestSpec's ADR-0002 rests on a
 third party validating a document against the normative schema without our tooling. That promise
-names a place. Every reference, `$schema` URL, and conformance claim points at a repository, and
-moving it invalidates them.
+names a place, and the place is already published: the schema carries an `$id` of
+
+```
+https://raw.githubusercontent.com/msmith-game-dev/OpenQuestSpec/main/packages/schema/openquest-0.1-draft.schema.json
+```
+
+Any document resolving that URL resolves a repository *and a path within it*. Moving the
+specification into this repository would change both.
 
 The failure mode being designed against is duplication. The moment a fact — a field name, a version
 number, a validity rule — exists in both the umbrella and the specification, one of them starts
@@ -70,15 +77,29 @@ window where they disagree. That is a real, recurring tax, and it was accepted d
 
 ### Vendor a synced copy into `docs/`
 
-Specifications authored in their own repositories, but copied in by a script or submodule so the site
-builds fully offline from one checkout. Preserves independent versioning while giving the website
-local content.
+Specifications authored in their own repositories, but copied in by a sync script so the site builds
+fully offline from one checkout. Preserves independent versioning while giving the website local
+content.
 
-Rejected because it creates the duplication problem and then automates it. A vendored copy is stale
+Rejected because it creates the duplication problem and then automates it. A copied file is stale
 between syncs by construction, and staleness in a specification is not a cosmetic defect — a reader
-validating against a synced-but-outdated schema gets wrong answers with full confidence. Submodules
-add a well-known class of contributor confusion for a benefit the site does not need: it can link to
-the authoritative repository, which is both simpler and more honest about where truth lives.
+validating against a synced-but-outdated schema gets wrong answers with full confidence.
+
+### Git submodules
+
+Distinct from the above and rejected for a different reason, which the first draft of this record
+wrongly collapsed into one argument. A submodule is **not** stale by construction: it pins an exact
+commit, which is a deliberate, reviewable version choice and a legitimate answer to the drift
+problem.
+
+Rejected instead on cost against benefit. Submodules carry a well-known class of contributor
+confusion — detached heads, unpopulated checkouts, updates that look like a one-line diff and are
+not — and they buy the site local content it does not need, because under this decision it links to
+the authoritative repository rather than rendering prose. Paying a recurring contributor tax for an
+unused capability is the wrong trade at this size.
+
+Worth revisiting alongside vendoring if the site ever renders specification prose. At that point
+pinning becomes a feature rather than overhead.
 
 Worth revisiting if the site ever needs to render full specification prose rather than link to it. At
 that point the sync becomes load-bearing and earns its complexity.
@@ -119,3 +140,27 @@ that point the sync becomes load-bearing and earns its complexity.
 - Decide where cross-family ADRs bind. This record assumes an ADR here binds the family and an ADR in
   a specification's repository binds only that specification, but nothing enforces a specification
   adopting a family-level decision. That is a governance question, deferred.
+
+---
+
+## Review notes
+
+Reviewed and accepted 2026-08-25. Two record defects were found and fixed before acceptance; the
+decision itself was not contested.
+
+**Finding 1 — the reference-breakage claim was asserted, and is in fact verifiable.** Context argued
+that moving the specification would invalidate references, without evidence. Checking found the
+schema already publishes an `$id` naming both the repository and a path within it. The claim was
+stronger than the record made it; Context now cites the URL so a future reader can check whether it
+still holds rather than taking it on trust.
+
+**Finding 2 — submodules were beaten as a strawman.** The vendoring alternative rejected "a script or
+submodule" on the grounds that copies go stale between syncs. That refutes the script and not the
+submodule, which pins an exact commit and is a legitimate answer to drift. Submodules now have their
+own section and their own rejection reason — contributor cost against a capability this site does not
+use. The conclusion is unchanged, but the alternative had not actually been defeated.
+
+**Not fixed, recorded as known:** this record carries two decisions — federation, and the registry
+co-commit invariant. Superseding the registry rule later would drag the federation decision with it.
+Accepted at the owner's direction on the grounds that the registry exists only because federation
+does; if the registry outgrows that, the split becomes the superseding record's job.

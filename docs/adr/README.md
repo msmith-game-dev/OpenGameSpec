@@ -7,9 +7,9 @@ Status: **Proposed** (awaiting `/adr-review`) · **Accepted** · **Rejected** ·
 
 | # | Title | Status | Date |
 |---|---|---|---|
-| [0001](0001-federated-spec-repositories.md) | Each specification lives in its own repository; OpenGameSpec describes, never defines | Proposed | 2026-08-25 |
-| [0002](0002-vite-react-website.md) | Build the website with Vite, React, and Tailwind | Proposed | 2026-08-25 |
-| [0003](0003-two-backlogs.md) | Separate the idea backlog from the initiative backlog | Proposed | 2026-08-25 |
+| [0001](0001-federated-spec-repositories.md) | Each specification lives in its own repository; OpenGameSpec describes, never defines | **Accepted** | 2026-08-25 |
+| [0002](0002-vite-react-website.md) | Build the website with Vite, React, and Tailwind | **Accepted** | 2026-08-25 |
+| [0003](0003-two-backlogs.md) | Separate the idea backlog from the initiative backlog | ~~Rejected~~ | 2026-08-25 |
 
 ## Scope
 
@@ -27,13 +27,19 @@ a follow-up in ADR-0001 and is a governance question.
 
 ## Reading order
 
-0001 first — it decides what this repository *is*, and 0002 and 0003 are both consequences of it.
-0002 is only settleable because 0001 removed specification prose from the site's requirements. 0003
-exists because 0001 created work that belongs to no single repository.
+0001 first — it decides what this repository *is*, and 0002 is a consequence of it: the stack was
+only settleable once 0001 removed specification prose from the site's requirements.
 
-**0003 was not selected from options by the owner.** The requirement was for two backlogs; the
-boundary between them was derived and should be confirmed deliberately rather than accepted by
-default.
+**0003 was rejected on scope, not on merit.** The two backlogs it describes exist and are in use;
+what was rejected is recording their organisation as an architecture decision, since it binds no
+specification and costs a `git mv` to reverse. Read its rejection reason for where the substance
+lives — and read it before proposing anything here, because it is the clearest statement of what this
+folder is not for.
+
+Both accepted records carry `## Review notes` describing what the review changed. In each case the
+decision survived and the *argument* did not: 0001 was beating a strawman version of git submodules,
+and 0002 had omitted Next.js, the option most readers would look for first. Neither changed the
+outcome. Both are worth reading as a record of how thin an unreviewed alternatives section can be.
 
 ## Where things live
 

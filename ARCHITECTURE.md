@@ -26,7 +26,7 @@ excessive is protecting that line.
 | Concern | Choice | Version |
 |---|---|---|
 | Runtime | Node.js (LTS) | 22.x |
-| Language | TypeScript, ESM only | 5.x |
+| Language | TypeScript, ESM only | 6.x |
 | UI | React | 19.x |
 | Routing | react-router-dom | 7.x |
 | Build | Vite | 6.x |
@@ -36,9 +36,14 @@ excessive is protecting that line.
 | Hosting | Netlify, static | — |
 
 The stack deliberately matches `arctic-flame-games-website` (ADR-0002) so that one set of habits
-covers both sites. The one open question is markdown: the site must render `.md` files that live
-outside `src/`, and Vite needs to be told how. That is an implementation decision, not an
-architectural one, but it is the first thing the site milestone has to settle.
+covers both sites. **The versions above are copied from that repository by hand and will drift.**
+Check `../PublicCompanyWebsite/package.json` before trusting a row — a review on 2026-08-25 already
+caught this table claiming TypeScript 5.x against a sibling pinned to 6.x.
+
+The one open question is markdown: the site must render `.md` files that live outside `src/`, and
+Vite needs to be told how. That is an implementation decision, not an architectural one, but it is
+the first thing the site milestone has to settle, because it is the single gap the chosen stack does
+not close and every rejected alternative did (ADR-0002).
 
 There is no database, no HTTP server, no authentication, and no user-submitted content in this
 project. Those sections appear below marked not applicable rather than omitted, so their absence is a
@@ -114,20 +119,31 @@ shipped anything.
 
 ## Shared conventions across specifications
 
-These bind the family, not this repository. They are recorded here because a convention that lives
-only in the first specification's head gets reinvented by the second.
+> **Observed, not yet binding.** Every convention below was decided in OpenQuestSpec's own ADRs,
+> which under ADR-0001 bind OpenQuestSpec and nothing else. No record in **this** repository
+> ratifies them family-wide, so the table describes what the one existing specification does — not
+> what the next one must do.
+>
+> This is deliberate at a sample of one. A convention drawn from a single specification is a habit,
+> and promoting a habit to a standard before a second specification has tested it is how a family
+> inherits mistakes nobody examined. A second specification adopting one of these is the evidence
+> that would make it binding, and that is when it earns an ADR here.
 
-| Convention | Rule |
-|---|---|
-| Serialization | JSON, with a **normative JSON Schema**. The schema is the authority; prose describes it. |
-| Versioning | `N.M-draft` until 1.0, no compatibility promised between drafts. Semantic versioning after. |
-| Conformance | A corpus in the specification's repository, **self-certified** — no registry, no approval. |
-| Extensions | `x-` prefixed fields, carried through as opaque data, never interpreted. |
-| Licence | Apache 2.0, for the express patent grant. |
-| Provenance | DCO sign-off on every commit. |
+Recorded because a convention that lives only in the first specification's head gets reinvented by
+the second.
 
-A new specification that diverges from any of these needs an ADR in **its own** repository saying
-why. Divergence is allowed; silent divergence is not.
+| Convention | What OpenQuestSpec does | Decided in |
+|---|---|---|
+| Serialization | JSON, with a **normative JSON Schema**. The schema is the authority; prose describes it. | OQS ADR-0002 |
+| Versioning | `N.M-draft` until 1.0, no compatibility promised between drafts. Semantic versioning after. | OQS ADR-0006 |
+| Conformance | A corpus in the specification's repository, **self-certified** — no registry, no approval. | OQS ADR-0013 |
+| Extensions | `x-` prefixed fields, carried through as opaque data, never interpreted. | OQS ADR-0010 |
+| Licence | Apache 2.0, for the express patent grant. | OQS ADR-0009 |
+| Provenance | DCO sign-off on every commit. | OQS ADR-0014 |
+
+A new specification is free to follow all of these — and should, absent a reason not to. What it
+cannot do is diverge **silently**: a divergence needs an ADR in its own repository saying why, so the
+family can see whether the convention or the exception is the thing that should change.
 
 ---
 

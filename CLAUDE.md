@@ -76,7 +76,13 @@ Records in `docs/adr/` **bind the whole family** — reversing one means changin
 that adopted it, so the bar is high. A decision binding one specification belongs in that
 specification's `docs/adr/`.
 
-ADRs are written `Proposed` and accepted only by `/adr-review`. 0001–0003 are currently Proposed.
+ADRs are written `Proposed` and accepted only by `/adr-review`. 0001 and 0002 are **Accepted**; 0003
+was **Rejected on scope** — it recorded file organisation rather than a family-binding decision.
+Read its rejection reason before proposing a record here; it is the clearest statement of the bar.
+
+The conventions table in `ARCHITECTURE.md` is **observed, not binding** — those rules were decided in
+OpenQuestSpec's ADRs and no record here ratifies them family-wide. Do not cite them as requirements
+for a new specification.
 
 ## Conventions
 
