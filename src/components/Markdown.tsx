@@ -15,6 +15,13 @@ export default function Markdown({ children }: { children: string }) {
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
+          // Overview tables carry repository URLs and long version strings. Without a scroll
+          // container they widen the whole page at 360px — caught by e2e/layout.spec.ts.
+          table: ({ node: _node, ...props }) => (
+            <div className="overflow-x-auto">
+              <table {...props} />
+            </div>
+          ),
           a: ({ href, children: linkChildren, ...props }) => {
             const external = href?.startsWith('http')
             return (

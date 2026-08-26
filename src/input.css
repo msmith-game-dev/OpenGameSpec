@@ -113,6 +113,11 @@
 }
 .md code {
   @apply font-mono text-[0.875em] bg-stock px-1.5 py-0.5;
+  /* Inline code holds schema URLs and ids, which have no spaces to break on. */
+  overflow-wrap: anywhere;
+}
+.md a {
+  overflow-wrap: anywhere;
 }
 .md pre {
   @apply bg-stock border-[3px] border-ink p-4 overflow-x-auto text-sm;

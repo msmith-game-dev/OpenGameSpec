@@ -28,7 +28,11 @@ export default function SpecPage() {
       </Link>
 
       <div className="mt-6 border-b-2 border-ink pb-8">
-        <h1 className="font-display text-4xl uppercase tracking-tight sm:text-5xl">{spec.name}</h1>
+        {/* Specification names are single unbreakable words — OPENDIALOGSPEC has nowhere to wrap.
+            Sized down at mobile, with break-words as the backstop for a longer future name. */}
+        <h1 className="break-words font-display text-3xl uppercase tracking-tight sm:text-4xl lg:text-5xl">
+          {spec.name}
+        </h1>
         <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-mid">{spec.summary}</p>
 
         {/* Data rows — the manual idiom for stating machine facts. */}

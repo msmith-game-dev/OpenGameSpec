@@ -5,7 +5,7 @@ export default function Specifications() {
   return (
     <div className="mx-auto max-w-[1120px] px-6 py-16">
       <p className="eyebrow text-ink-light">Contents</p>
-      <h1 className="mt-3 font-display text-4xl uppercase tracking-tight sm:text-[2.75rem]">
+      <h1 className="mt-3 break-words font-display text-3xl uppercase tracking-tight sm:text-[2.75rem]">
         Specifications
       </h1>
       <p className="mt-5 max-w-2xl leading-relaxed text-ink-mid">
