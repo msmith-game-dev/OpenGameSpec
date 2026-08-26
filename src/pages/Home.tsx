@@ -18,11 +18,13 @@ export default function Home() {
     <>
       {/* Cover */}
       <section className="border-b-2 border-ink">
+        {/* min-w-0 on both columns: grid children default to min-width:auto, so the code block's
+            min-w-max would otherwise widen the whole page and force a horizontal scroll. */}
         <div className="mx-auto grid max-w-[1120px] gap-14 px-6 py-16 lg:grid-cols-2 lg:gap-16 lg:py-20">
-          <div>
+          <div className="min-w-0">
             <p className="eyebrow text-red">Open Game Specifications</p>
             <h1 className="cover mt-5 max-w-xl text-[2.5rem] sm:text-[3.5rem] lg:text-[4.5rem]">
-              The manual for your game&nbsp;content
+              The manual for your game content
             </h1>
             <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-mid">
               Quests, dialogue, items — described once, in versioned JSON with a normative schema,
@@ -52,7 +54,9 @@ export default function Home() {
             </p>
           </div>
 
-          <AnnotatedDocument />
+          <div className="min-w-0">
+            <AnnotatedDocument />
+          </div>
         </div>
       </section>
 

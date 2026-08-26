@@ -94,28 +94,31 @@ function Disc({ n }: { n: number }) {
 export default function AnnotatedDocument() {
   return (
     <figure className="m-0">
-      <div className="overflow-x-auto border-[3px] border-ink bg-stock">
-        <div className="relative min-w-max py-5 pr-5">
-          {/* Print tab, top-right. */}
-          <span className="eyebrow absolute right-0 top-0 bg-ink px-2 py-1 text-paper">JSON</span>
+      {/* The tab is anchored to the bordered box, not to the scrolling content — pinning it inside
+          the min-w-max track put it at the content's right edge, off-screen and clipped. */}
+      <div className="relative border-[3px] border-ink bg-stock">
+        <span className="eyebrow absolute right-0 top-0 z-10 bg-ink px-2 py-1 text-paper">JSON</span>
 
-          {LINES.map((line, i) => (
-            <div key={i} className="flex items-center">
-              <span className="flex w-9 shrink-0 justify-center sm:w-11">
-                {line.callout ? <Disc n={line.callout} /> : null}
-              </span>
-              {/* The leader. Orthogonal, hairline, and only where a callout exists. */}
-              <span
-                aria-hidden="true"
-                className={`hidden w-5 shrink-0 border-t sm:block ${
-                  line.callout ? 'border-ink-light' : 'border-transparent'
-                }`}
-              />
-              <code className="whitespace-pre pl-2 font-mono text-[13px] leading-[1.9] sm:pl-0 sm:text-sm">
-                {highlight(line.text)}
-              </code>
-            </div>
-          ))}
+        <div className="overflow-x-auto">
+          <div className="min-w-max py-5 pr-5">
+            {LINES.map((line, i) => (
+              <div key={i} className="flex items-center">
+                <span className="flex w-9 shrink-0 justify-center sm:w-11">
+                  {line.callout ? <Disc n={line.callout} /> : null}
+                </span>
+                {/* The leader. Orthogonal, hairline, and only where a callout exists. */}
+                <span
+                  aria-hidden="true"
+                  className={`hidden w-5 shrink-0 border-t sm:block ${
+                    line.callout ? 'border-ink-light' : 'border-transparent'
+                  }`}
+                />
+                <code className="whitespace-pre pl-2 font-mono text-[13px] leading-[1.9] sm:pl-0 sm:text-sm">
+                  {highlight(line.text)}
+                </code>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
