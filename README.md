@@ -1,5 +1,7 @@
 # OpenGameSpec
 
+**<https://opengamespec.com>**
+
 Open specifications for game content — and the home of the initiative that produces them.
 
 Game studios rebuild the same content formats on every project. Quests, dialogue, items, loot tables:
@@ -41,8 +43,16 @@ docs/
   adr/                    why this repository is shaped the way it is
 ```
 
-The website source will live at the root of this repository alongside `docs/`. It is **not built
-yet**; the stack is decided and recorded in [ADR-0002](docs/adr/0002-vite-react-website.md).
+The website source lives at the root of this repository alongside `docs/`, and deploys to
+<https://opengamespec.com> from `main`. Stack and its trade-offs are recorded in
+[ADR-0002](docs/adr/0002-vite-react-website.md); the visual identity is in [DESIGN.md](DESIGN.md).
+
+```bash
+npm install
+npm run dev        # http://localhost:5173
+npm run check      # registry validation, tsc, unit tests
+npm run test:e2e   # Playwright layout checks against a production build
+```
 
 ## What these specifications have in common
 

@@ -2,8 +2,8 @@
 
 > Last updated: 2026-08-25
 
-> **The website is built.** `src/` describes real code as of 2026-08-25. Not yet deployed — the site
-> builds and tests clean locally, and has no custom domain.
+> **The website is built and live** at <https://opengamespec.com>, deploying from `main` as of
+> 2026-08-25. `src/` describes real code. Visual identity is in [DESIGN.md](DESIGN.md).
 
 OpenGameSpec is two things in one repository, and the rules below follow from keeping them separate:
 
@@ -169,10 +169,17 @@ family can see whether the convention or the exception is the thing that should 
 - **The docs seam is tested**, because it is where ADR-0001 accepted duplication: every registry
   entry must have a loadable overview, and `SpecPage` asserts against text that exists only in
   `docs/openquest/README.md`. If the site ever stops reading the real file, those fail.
+- **Layout is tested end to end** by `e2e/layout.spec.ts` via Playwright, against a production
+  build. It asserts no horizontal overflow on every route at 360–1440px, which is the failure mode
+  unit tests cannot see: it throws nothing, looks fine at desktop width, and reached production
+  once already. The guard found two more overflows within a minute of being written.
 - **No snapshot tests of marketing copy.** They fail on every wording change and teach the team to
   regenerate without reading.
 - **Link checking** in CI — still outstanding. A specification family whose site links to a 404 is
   making an argument about its own maintenance.
+- **Prerendering** — outstanding, and it matters more than it looks. The site is a client-rendered
+  SPA, so crawlers and link unfurlers see an empty shell. For a format seeking adoption, being
+  unreadable without JavaScript is a real cost that ADR-0002 did not weigh.
 
 ---
 

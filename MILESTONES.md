@@ -54,8 +54,7 @@ The honest scope limit: this milestone ships a site with **no custom domain**. I
 - [x] `public/_redirects` for SPA fallback, shipped with the router
 - [x] Tests: registry validation, status badge branches, planned-spec rendering — 43 passing
 - [x] `netlify.toml`
-- [ ] **Connect the Netlify site and deploy from `main`** — needs repo access in the Netlify UI, so
-      it is the one task that cannot be done from here
+- [x] Connect the Netlify site and deploy from `main` — done by the owner on 2026-08-25
 
 ### Notes from implementation
 
