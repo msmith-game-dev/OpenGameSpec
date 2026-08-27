@@ -4,16 +4,19 @@ A format for describing items: their identity, their stats, and their inventory 
 
 | | |
 |---|---|
-| **Status** | **Planned** |
+| **Status** | **Scaffolded** — no schema yet |
 | **Version** | — |
-| **Repository** | Does not exist yet |
-| **Licence** | Apache 2.0, when it exists |
+| **Repository** | [msmith-game-dev/OpenItemSpec](https://github.com/msmith-game-dev/OpenItemSpec) |
+| **Licence** | Apache 2.0 |
 
-> ## This does not exist
+> ## There is no format yet
 >
-> There is no repository, no schema, no prose, and no timeline. This folder exists so the shape of
-> the family is legible and so notes have somewhere to accumulate. **Nothing here is a commitment**,
-> and none of it should be planned against.
+> The repository exists as of 2026-08-27 and contains **no schema, no prose, and no version** — a
+> licence, contribution rules, workspace tooling, and an empty conformance corpus. **Do not build
+> against this. There is nothing to build against.**
+>
+> It was scaffolded so the work has somewhere to start and so the open questions below have a home,
+> not because the work has started.
 
 ## Why it is on the list
 

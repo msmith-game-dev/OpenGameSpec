@@ -28,11 +28,16 @@ describe('SpecPage', () => {
     )
   })
 
-  it('offers no repository link for a planned specification', () => {
+  it('links a scaffolded specification to its repository but claims no version', () => {
+    // Scaffolded is the one status where the repository is real and the format is not, so the
+    // page must offer the link and still say plainly there is nothing to build against.
     renderAt('/specifications/opendialog')
-    expect(screen.queryByRole('link', { name: 'View the repository' })).not.toBeInTheDocument()
-    expect(screen.getByTestId('status-stamp')).toHaveTextContent('Not in this release')
-    expect(screen.getByText('None yet')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'View the repository' })).toHaveAttribute(
+      'href',
+      'https://github.com/msmith-game-dev/OpenDialogSpec',
+    )
+    expect(screen.getByTestId('status-stamp')).toHaveTextContent('No schema yet')
+    expect(screen.getByTestId('status-stamp').textContent).not.toMatch(/draft|coming|soon/i)
   })
 
   it('falls back to 404 for an unknown specification', () => {

@@ -43,6 +43,24 @@ describe('validateRegistry', () => {
     ).toEqual([])
   })
 
+  it('accepts a well-formed scaffolded entry', () => {
+    expect(
+      errorsFor(valid({ status: 'scaffolded', version: null })),
+    ).toEqual([])
+  })
+
+  describe('scaffolded means repository yes, schema no', () => {
+    it('rejects a scaffolded spec carrying a version', () => {
+      const errors = errorsFor(valid({ status: 'scaffolded', version: '0.1-draft' }))
+      expect(errors.join()).toMatch(/scaffolded specification must have "version": null/)
+    })
+
+    it('rejects a scaffolded spec with no repository', () => {
+      const errors = errorsFor(valid({ status: 'scaffolded', version: null, repository: null }))
+      expect(errors.join()).toMatch(/scaffolded means the repository exists/)
+    })
+  })
+
   it('rejects a registry with no specs array', () => {
     expect(validateRegistry({}, allExist)).toHaveLength(1)
     expect(validateRegistry(null, allExist)).toHaveLength(1)

@@ -114,7 +114,7 @@ Every entry carries:
 | `id` | Stable kebab-case identifier, matching the folder name under `docs/` |
 | `name` | Display name, e.g. `OpenQuestSpec` |
 | `summary` | One sentence, no marketing |
-| `status` | `planned` · `draft` · `stable` · `deprecated` |
+| `status` | `planned` · `scaffolded` · `draft` · `stable` · `deprecated` |
 | `version` | Current version string, or `null` when `planned` |
 | `repository` | Canonical repository URL, or `null` when `planned` |
 | `docs` | Path to the overview folder under `docs/` |
@@ -123,6 +123,15 @@ Every entry carries:
 that the work has not started, and the website must render it as such rather than as a coming-soon
 teaser. Overpromising is the specific way a specification family loses credibility before it has
 shipped anything.
+
+`status: scaffolded` means **the repository exists and holds no schema**. It is the one status where
+`version` and `repository` disagree, and the validator enforces both halves: a version would claim a
+format nobody has designed, and a null repository would hide one that is public.
+
+**"Published" is derived from `version`, not from a list of statuses.** A version exists only when a
+schema does, so `publishedSpecs()` keys on that single fact rather than on a status allowlist that
+would need editing every time a status is added — which is exactly the edit that was missed when
+`scaffolded` arrived and briefly counted two empty repositories as published.
 
 ---
 

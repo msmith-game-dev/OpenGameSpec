@@ -1,6 +1,6 @@
 {
   "$comment": "The registry. Machine-readable list of every specification in the family, and the website's data source. Keep in sync with docs/README.md and each docs/<id>/README.md in the SAME commit. See ARCHITECTURE.md 'The registry'.",
-  "updated": "2026-08-25",
+  "updated": "2026-08-27",
   "specs": [
     {
       "id": "openquest",
@@ -15,18 +15,18 @@
       "id": "opendialog",
       "name": "OpenDialogSpec",
       "summary": "A format for describing dialogue: speakers, lines, branches, and the conditions that gate them.",
-      "status": "planned",
+      "status": "scaffolded",
       "version": null,
-      "repository": null,
+      "repository": "https://github.com/msmith-game-dev/OpenDialogSpec",
       "docs": "docs/opendialog"
     },
     {
       "id": "openitem",
       "name": "OpenItemSpec",
       "summary": "A format for describing items, their stats, and their inventory semantics.",
-      "status": "planned",
+      "status": "scaffolded",
       "version": null,
-      "repository": null,
+      "repository": "https://github.com/msmith-game-dev/OpenItemSpec",
       "docs": "docs/openitem"
     }
   ]

@@ -61,13 +61,22 @@ No rarity tiers. Manual-native labelling: a stamped box with a fill and a word.
 |---|---|---|
 | `draft` | `--yellow` fill, `--ink` text | `DRAFT` |
 | `stable` | `--blue` fill, `--paper` text | `STABLE` |
-| `planned` | No fill. 1px dashed `--ink-light` outline, `--ink-light` text | `NOT IN THIS RELEASE` |
+| `scaffolded` | No fill. Solid `--ink` border, `--ink-mid` text | `NO SCHEMA YET` |
+| `planned` | No fill. Dashed `--ink-light` border, `--ink-light` text | `NOT IN THIS RELEASE` |
 | `deprecated` | `--stock` fill, `--ink-mid` text | `WITHDRAWN` |
 
-**`planned` is an unfilled box.** No colour, no glow, nothing to click toward. `NOT IN THIS RELEASE`
+**`planned` is an unfilled, dashed box.** No colour, nothing to click toward. `NOT IN THIS RELEASE`
 is borrowed from print and is the most honest phrasing available — it states a fact about now and
-promises nothing about later. The family has one draft specification; a coming-soon treatment on the
-other two is the overpromise this project cannot afford.
+promises nothing about later. A coming-soon treatment is the overpromise this project cannot afford.
+
+**`scaffolded` is the honest middle**, added 2026-08-27 when OpenDialogSpec and OpenItemSpec got
+public repositories containing no schema. The border is solid, because the repository is real and
+worth visiting; the box is unfilled, because the format is not. `NO SCHEMA YET` says the only thing a
+reader needs: there is nothing here to build against.
+
+Getting this wrong in either direction was easy. Leaving them `planned` would have denied a public
+repository exists — the drift ADR-0001 exists to prevent. Calling them `draft` would have claimed a
+format nobody has designed. The unfilled-but-solid treatment is the visual form of that distinction.
 
 `deprecated` reads `WITHDRAWN` and is never struck through. People migrating off a withdrawn format
 still have to read it.

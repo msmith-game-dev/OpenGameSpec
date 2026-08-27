@@ -72,12 +72,20 @@ test.describe('the figure stays inside its box', () => {
   })
 })
 
-test.describe('planned specifications do not overpromise', () => {
-  test('a planned spec page offers no repository and no coming-soon', async ({ page }) => {
+test.describe('specifications without a schema do not overpromise', () => {
+  test('a scaffolded spec says so, and never says coming soon', async ({ page }) => {
     await page.goto('/specifications/opendialog')
 
-    await expect(page.getByText('Not in this release').first()).toBeVisible()
-    await expect(page.getByRole('link', { name: 'View the repository' })).toHaveCount(0)
+    // The repository is real, so the link belongs. The format is not, so the page must say it.
+    await expect(page.getByText('No schema yet').first()).toBeVisible()
+    await expect(page.getByRole('link', { name: 'View the repository' })).toHaveCount(1)
     await expect(page.locator('body')).not.toContainText(/coming soon/i)
+  })
+
+  test('the landing page counts only specifications with a schema as published', async ({
+    page,
+  }) => {
+    await page.goto('/')
+    await expect(page.getByText(/1 published · 2 without a schema/)).toBeVisible()
   })
 })

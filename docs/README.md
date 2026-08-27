@@ -9,12 +9,14 @@ in, and where to find them ([ADR-0001](adr/0001-federated-spec-repositories.md))
 | Specification | Covers | Status | Version | Repository |
 |---|---|---|---|---|
 | [OpenQuestSpec](openquest/) | Quests, objectives, rewards | Draft | `0.1-draft` | [msmith-game-dev/OpenQuestSpec](https://github.com/msmith-game-dev/OpenQuestSpec) |
-| [OpenDialogSpec](opendialog/) | Dialogue trees, speakers, conditions | Planned | — | — |
-| [OpenItemSpec](openitem/) | Items, stats, inventory semantics | Planned | — | — |
+| [OpenDialogSpec](opendialog/) | Dialogue trees, speakers, conditions | Scaffolded | — | [msmith-game-dev/OpenDialogSpec](https://github.com/msmith-game-dev/OpenDialogSpec) |
+| [OpenItemSpec](openitem/) | Items, stats, inventory semantics | Scaffolded | — | [msmith-game-dev/OpenItemSpec](https://github.com/msmith-game-dev/OpenItemSpec) |
 
-**Planned means the work has not started.** There is no repository, no schema, and no timeline. The
-folder exists so the shape of the family is legible and so the idea has somewhere to accumulate
-notes — not as a promise.
+**Scaffolded means the repository exists and the format does not.** A licence, contribution rules,
+and an empty corpus — no schema, no prose, no version. Nothing to build against.
+
+**Planned means not even that.** No repository at all. The folder exists so the shape of the family
+is legible, not as a promise.
 
 This table is the human-readable view of [`specs.json`](specs.json). **They change together.**
 

@@ -9,7 +9,7 @@
 
 import registry from '../../docs/specs.json'
 
-export type SpecStatus = 'planned' | 'draft' | 'stable' | 'deprecated'
+export type SpecStatus = 'planned' | 'scaffolded' | 'draft' | 'stable' | 'deprecated'
 
 export interface Spec {
   id: string
@@ -75,12 +75,18 @@ export function getOverviewBody(id: string): string | undefined {
   return raw === undefined ? undefined : stripLeadingHeading(raw)
 }
 
-/** Specifications that exist and can be read today, in registry order. */
-export function availableSpecs(): Spec[] {
-  return specs.filter((s) => s.status !== 'planned')
+/**
+ * Specifications with a format someone can actually read, in registry order.
+ *
+ * Keyed on `version` rather than on a list of statuses, because that is the fact that matters: a
+ * version exists only when a schema does. A scaffolded specification has a public repository and
+ * nothing in it, so it must not appear as a call to action — there is nothing at the other end.
+ */
+export function publishedSpecs(): Spec[] {
+  return specs.filter((s) => s.version !== null)
 }
 
-/** Specifications with no repository yet. Rendered as not started, never as coming soon. */
-export function plannedSpecs(): Spec[] {
-  return specs.filter((s) => s.status === 'planned')
+/** Specifications with no schema yet — planned or scaffolded. Never rendered as coming soon. */
+export function unpublishedSpecs(): Spec[] {
+  return specs.filter((s) => s.version === null)
 }

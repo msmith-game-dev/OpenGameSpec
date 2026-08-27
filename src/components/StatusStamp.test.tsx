@@ -10,6 +10,7 @@ import type { SpecStatus } from '../data/specs'
 describe('StatusStamp', () => {
   const cases: Array<[SpecStatus, string]> = [
     ['planned', 'Not in this release'],
+    ['scaffolded', 'No schema yet'],
     ['draft', 'Draft'],
     ['stable', 'Stable'],
     ['deprecated', 'Withdrawn'],
@@ -20,9 +21,20 @@ describe('StatusStamp', () => {
     expect(screen.getByTestId('status-stamp')).toHaveTextContent(label)
   })
 
-  it('never describes a planned specification as coming soon', () => {
-    render(<StatusStamp status="planned" />)
-    expect(screen.getByTestId('status-stamp').textContent).not.toMatch(/coming|soon|shortly/i)
+  it.each(['planned', 'scaffolded'] as SpecStatus[])(
+    'never describes a %s specification as coming soon',
+    (status) => {
+      render(<StatusStamp status={status} />)
+      expect(screen.getByTestId('status-stamp').textContent).not.toMatch(/coming|soon|shortly/i)
+    },
+  )
+
+  it('does not dress a scaffolded specification as a lesser draft', () => {
+    // A public repository with no schema must not read as something to build against.
+    render(<StatusStamp status="scaffolded" />)
+    const stamp = screen.getByTestId('status-stamp')
+    expect(stamp.textContent).not.toMatch(/draft/i)
+    expect(stamp.className).not.toMatch(/bg-yellow|bg-blue/)
   })
 
   it('never strikes through a withdrawn specification', () => {

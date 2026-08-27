@@ -19,6 +19,15 @@ const STAMPS: Record<SpecStatus, { label: string; className: string }> = {
     label: 'Not in this release',
     className: 'bg-transparent text-ink-light border-ink-light border-dashed',
   },
+  /*
+   * A public repository exists and holds no schema. Solid ink border rather than dashed — the
+   * repository is real and readable — but unfilled, because the format is not. It must never read
+   * as a lesser draft: there is nothing to build against.
+   */
+  scaffolded: {
+    label: 'No schema yet',
+    className: 'bg-transparent text-ink-mid border-ink',
+  },
   deprecated: { label: 'Withdrawn', className: 'bg-stock text-ink-mid border-ink-mid' },
 }
 

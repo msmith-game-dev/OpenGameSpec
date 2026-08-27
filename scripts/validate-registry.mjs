@@ -15,7 +15,7 @@ import { readFileSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join, resolve } from 'node:path'
 
-export const STATUSES = ['planned', 'draft', 'stable', 'deprecated']
+export const STATUSES = ['planned', 'scaffolded', 'draft', 'stable', 'deprecated']
 
 const ID_PATTERN = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/
 
@@ -74,6 +74,17 @@ export function validateRegistry(registry, { overviewExists }) {
       }
       if (spec.repository !== null) {
         fail(`${at}: a planned specification must have "repository": null — got ${JSON.stringify(spec.repository)}`)
+      }
+    } else if (spec?.status === 'scaffolded') {
+      // Scaffolded is the honest middle: a repository exists, a schema does not. It is the one
+      // status where the two fields disagree, and both halves are load-bearing — a version would
+      // claim a format that has not been designed, and a missing repository would hide one that
+      // is public.
+      if (spec.version !== null) {
+        fail(`${at}: a scaffolded specification must have "version": null — there is no schema to version — got ${JSON.stringify(spec.version)}`)
+      }
+      if (typeof spec.repository !== 'string' || !spec.repository.startsWith('https://')) {
+        fail(`${at}: a scaffolded specification must have an https repository URL — scaffolded means the repository exists`)
       }
     } else if (STATUSES.includes(spec?.status)) {
       if (typeof spec.version !== 'string' || spec.version.trim() === '') {

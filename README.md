@@ -21,8 +21,8 @@ HTTP APIs.
 | Specification | Covers | Status | Repository |
 |---|---|---|---|
 | [OpenQuestSpec](docs/openquest/) | Quests, objectives, rewards | `0.1-draft` | [msmith-game-dev/OpenQuestSpec](https://github.com/msmith-game-dev/OpenQuestSpec) |
-| [OpenDialogSpec](docs/opendialog/) | Dialogue trees, speakers, conditions | Planned | — |
-| [OpenItemSpec](docs/openitem/) | Items, stats, inventory semantics | Planned | — |
+| [OpenDialogSpec](docs/opendialog/) | Dialogue trees, speakers, conditions | Scaffolded, no schema | [msmith-game-dev/OpenDialogSpec](https://github.com/msmith-game-dev/OpenDialogSpec) |
+| [OpenItemSpec](docs/openitem/) | Items, stats, inventory semantics | Scaffolded, no schema | [msmith-game-dev/OpenItemSpec](https://github.com/msmith-game-dev/OpenItemSpec) |
 
 Each specification lives in **its own repository** and is versioned independently. This repository is
 the umbrella: it holds the overview for each specification, the shared conventions they follow, and

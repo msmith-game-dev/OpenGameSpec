@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest'
 import {
-  availableSpecs,
   getOverview,
   getOverviewBody,
   getSpec,
-  plannedSpecs,
+  publishedSpecs,
   specs,
   stripLeadingHeading,
+  unpublishedSpecs,
 } from './specs'
 
 /**
@@ -37,14 +37,31 @@ describe('registry', () => {
     expect(getSpec(undefined)).toBeUndefined()
   })
 
-  it('splits available from planned without losing any', () => {
-    expect(availableSpecs().length + plannedSpecs().length).toBe(specs.length)
+  it('splits published from unpublished without losing any', () => {
+    expect(publishedSpecs().length + unpublishedSpecs().length).toBe(specs.length)
+  })
+
+  it('never counts a specification without a schema as published', () => {
+    // The failure this guards: a status allowlist that forgets a newly added status and
+    // silently promotes empty repositories into the published count.
+    for (const spec of publishedSpecs()) {
+      expect(spec.version, `${spec.id} is published with no version`).not.toBeNull()
+      expect(spec.status).not.toBe('planned')
+      expect(spec.status).not.toBe('scaffolded')
+    }
   })
 
   it('gives planned specifications no version and no repository', () => {
-    for (const spec of plannedSpecs()) {
+    for (const spec of specs.filter((s) => s.status === 'planned')) {
       expect(spec.version).toBeNull()
       expect(spec.repository).toBeNull()
+    }
+  })
+
+  it('gives scaffolded specifications a repository but no version', () => {
+    for (const spec of specs.filter((s) => s.status === 'scaffolded')) {
+      expect(spec.version, `${spec.id} claims a version with no schema`).toBeNull()
+      expect(spec.repository, `${spec.id} is scaffolded with no repository`).toMatch(/^https:\/\//)
     }
   })
 })

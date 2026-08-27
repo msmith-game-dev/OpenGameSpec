@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { availableSpecs, plannedSpecs, specs } from '../data/specs'
+import { publishedSpecs, specs, unpublishedSpecs } from '../data/specs'
 import AnnotatedDocument from '../components/AnnotatedDocument'
 import SpecRow from '../components/SpecRow'
 import WarningPanel from '../components/WarningPanel'
@@ -11,8 +11,8 @@ import WarningPanel from '../components/WarningPanel'
  * page, teaching the format instead of claiming a value proposition (DESIGN.md).
  */
 export default function Home() {
-  const available = availableSpecs()
-  const planned = plannedSpecs()
+  const published = publishedSpecs()
+  const unpublished = unpublishedSpecs()
 
   return (
     <>
@@ -48,9 +48,11 @@ export default function Home() {
               </a>
             </div>
 
+            {/* Counted from the registry so it cannot drift into flattery. "Published" means a
+                version exists, which means a schema does — a scaffolded repository is neither. */}
             <p className="mt-8 font-mono text-sm text-ink-light">
-              {available.length} published
-              {planned.length > 0 ? ` · ${planned.length} not started` : null}
+              {published.length} published
+              {unpublished.length > 0 ? ` · ${unpublished.length} without a schema` : null}
             </p>
           </div>
 
